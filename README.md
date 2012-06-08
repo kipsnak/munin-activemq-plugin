@@ -14,13 +14,20 @@ Display queues status graphs in Munin.
 
 ### Debian
 
-* download `queue_` script to `/usr/share/munin/plugins/queue_` as root
 
+1. download `queue_` script to `/usr/share/munin/plugins/queue_` as root
+
+~~~
 	wget -P /usr/share/munin/plugins/ https://raw.github.com/kipsnak/munin-activemq-plugin/master/queue_
 
-* Test if your system has a required modules by the following command:
+~~~
 
+2. Test if your system has a required modules by the following command:
+
+~~~
 	/usr/share/munin/plugins/queue_ autoconf
+
+~~~
 
 as result you should have yes, else you can install them:
 
@@ -46,7 +53,7 @@ you can also use `force install`:
 
 => TODO: use another perl lib with less dependencies
 
-* Create a symlink to this script:
+3. Create a symlink to this script:
 
 	cd /etc/munin/plugins/
 
@@ -56,7 +63,7 @@ if you want display multi-graph for the same ActiveMQ queue try this:
 
 	ln -s /usr/share/munin/plugins/queue_ /etc/munin/plugins/queue_<some.string>_<name.of.my.queue>
 
-* Configure the plugin environment variables:
+4. Configure the plugin environment variables:
 
 In your Munin-node, edit the file `munin-node` in _/etc/munin/plugin-conf.d/_ and add the following lines:
 
@@ -77,8 +84,8 @@ As default the plugin will display only 'size' component.
 
 Nota: change `[queue_*]` to `[queue_<some.string>_*]` if you choose to display multi graph.
 
-* Test your config:
+5. Test your config:
 	munin-run /etc/munin/plugins/queue_<name.of.my.queue>
 
-* Restart your Munin-node:
+6. Restart your Munin-node:
 	/etc/init.d/munin-node restart
