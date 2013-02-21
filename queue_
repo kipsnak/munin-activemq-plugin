@@ -21,7 +21,7 @@ So, You should define ActiveMQ parameters by changing  environment variables:
 [queue_*]
 	env.host	<ActiveMQ_@IP>
 	env.port	<ActiveMQ_Port>
-	env.type	(<List of Monitored value>)
+	env.type	<Monitored value 1> ... <Monitored value n>
 
 You can also rename the "category" by the following:
 	env.category <some name>
@@ -70,7 +70,7 @@ use XML::Simple;
 my $HOST		= exists $ENV{host} ? $ENV{host} : 'localhost';
 my $PORT		= exists $ENV{port} ? $ENV{port} : 8161;
 my $CATEGORY	= exists $ENV{category} ? $ENV{category} : 'ActiveMQ-Queues';
-my @DISPLAYED   = exists $ENV{type} ? $ENV{type} : ('default');
+my @DISPLAYED   = exists $ENV{type} ? split(/ /, $ENV{type}) : ('default');
 
 my $URI			= "http://$HOST:$PORT/admin/xml/queues.jsp";
 

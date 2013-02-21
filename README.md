@@ -77,7 +77,7 @@ In your Munin-node, edit the file `munin-node` in _/etc/munin/plugin-conf.d/_ an
 		env.host <my.activemq_host>
 		env.port <my.activemq.port>
 		env.category activemq_queues
-		env.type ({list.of.component})
+		env.type <component 1> ... <component n>
 
 here an exemple:
 	[queue_*]
