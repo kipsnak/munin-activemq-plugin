@@ -11,7 +11,11 @@ No configuration
 
 =head2 Warning and Critical Values
 
-Warning and critical values not supported for this version.
+If defined, warning and/or critical lines will be used.
+
+[queue_*]
+    env.size_warning 25
+    env.size_critical 50
 
 =head2 ENVIRONMENT
 
@@ -66,6 +70,9 @@ Ver 1.0
 use strict;
 use WWW::Mechanize;
 use XML::Simple;
+use lib $ENV{'MUNIN_LIBDIR'};
+use Munin::Plugin;
+
 
 my $HOST		= exists $ENV{host} ? $ENV{host} : 'localhost';
 my $PORT		= exists $ENV{port} ? $ENV{port} : 8161;
@@ -241,10 +248,16 @@ sub check_config{
 				#     graph_category ActiveMQ-Queues 
 				#     graph_args --base 1000
 				else{
+					my $warn;
+					my $crit;
 					$graph_order .= "$key ";
 					foreach my $item (keys $_->{$key}){
 						 $buf .= "$key.$item $_->{$key}->{$item}\n";
 					}
+					# add warning/critical thresholds for $key
+					($warn, $crit) = get_thresholds ($key);
+					$buf .= "$key.warning $warn\n" if defined $warn;
+					$buf .= "$key.critical $crit\n" if defined $crit;
 				}
 			}
 		}
